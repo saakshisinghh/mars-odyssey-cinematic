@@ -76,24 +76,67 @@ Instead of static pages, the experience unfolds like a film:
 marsbound-odyssey/
 │
 ├── public/
-│   ├── audio/
+│   ├── audio/                      # 🔊 Sound assets
 │   │   ├── ambient-space.mp3
 │   │   ├── rocket-launch.mp3
 │   │   └── landing.mp3
-│   └── assets/
+│   │
+│   ├── assets/                     # 🖼️ Images / textures
+│   │   ├── stars.png
+│   │   ├── mars-texture.jpg
+│   │   └── ui-elements/
+│   │
+│   └── favicon.ico
 │
 ├── src/
-│   ├── components/
-│   ├── sections/
-│   ├── animation/
-│   ├── hooks/
-│   ├── audio/
-│   ├── styles/
-│   ├── App.jsx
-│   └── main.jsx
+│   │
+│   ├── components/                 # 🧩 Reusable UI components
+│   │   ├── Cursor.jsx
+│   │   ├── Loader.jsx
+│   │   ├── Nav.jsx
+│   │   ├── ProgressBar.jsx
+│   │   ├── AudioToggle.jsx
+│   │   └── StarField.jsx
+│   │
+│   ├── sections/                   # 🎬 Story sections (scenes)
+│   │   ├── Hero3D.jsx
+│   │   ├── Mission.jsx
+│   │   ├── Launch.jsx
+│   │   ├── Transit.jsx
+│   │   ├── Landing.jsx
+│   │   ├── Explore.jsx
+│   │   └── Future.jsx
+│   │
+│   ├── animation/                  # 🎞️ GSAP animation logic
+│   │   ├── masterTimeline.js
+│   │   └── scrollController.js
+│   │
+│   ├── hooks/                      # ⚙️ Custom hooks
+│   │   ├── useHeroThreeScene.js
+│   │   ├── useScrollProgress.js
+│   │   └── useAudio.js
+│   │
+│   ├── audio/                      # 🔊 Audio system
+│   │   ├── cinematicAudio.js
+│   │   └── audioManager.js
+│   │
+│   ├── styles/                     # 🎨 Styling
+│   │   ├── globals.css
+│   │   ├── variables.css
+│   │   └── animations.css
+│   │
+│   ├── utils/                      # 🛠️ Helper functions
+│   │   ├── math.js
+│   │   ├── easing.js
+│   │   └── constants.js
+│   │
+│   ├── App.jsx                     # Main app component
+│   └── main.jsx                    # Entry point
 │
+├── .gitignore
 ├── package.json
-└── vite.config.js
+├── vite.config.js
+└── README.md
 ```
 
 ---
@@ -101,10 +144,19 @@ marsbound-odyssey/
 ## 🧠 Architecture
 
 ```
-Scroll → GSAP → Timeline  
-→ Three.js Scene  
-→ UI Sections  
-→ Audio Sync  
+User Scroll  
+   ↓
+GSAP ScrollTrigger  
+   ↓
+Master Timeline  
+   ↓
+Three.js Scene Updates  
+   ↓
+UI Sections Sync  
+   ↓
+Audio System Sync  
+   ↓
+Cinematic Output
 ```
 
 ---
@@ -113,23 +165,24 @@ Scroll → GSAP → Timeline
 
 - Scroll → progress story  
 - Hover → interact  
-- Sound toggle → audio control  
+- Sound toggle → control audio  
 
 ---
 
 ## ⚡ Performance
 
 - Optimized animations (transform-based)  
-- Reduced re-renders  
-- Mobile fallbacks for 3D  
+- Minimal re-renders using refs  
+- Mobile fallback for heavy 3D  
 
 ---
 
 ## 🏆 Why This Project
 
 - Cinematic storytelling approach  
-- Real-time 3D integration  
-- Strong interaction design  
+- Real-time 3D + particles  
+- Strong animation + interaction design  
+- Built under hackathon constraints  
 
 ---
 
