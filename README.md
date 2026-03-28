@@ -1,148 +1,148 @@
-🚀 MARSBOUND ODYSSEY
-A Cinematic Journey Beyond Earth
+# 🚀 MARSBOUND ODYSSEY  
+### A Cinematic Journey Beyond Earth
 
-“This is not a website. It’s a mission you experience.”
+> This is not a website. It’s a mission you experience.
 
-🌐 Live Experience
+---
 
+## 🌐 Live Demo
 👉 https://marsbound-odyssey.vercel.app/
 
-⚠️ Best experienced on desktop with sound ON for full cinematic immersion
+⚠️ Best experienced on desktop with sound ON
 
-🎬 What is this?
+---
 
-Marsbound Odyssey is an immersive, scroll-driven cinematic web experience that takes users from Earth to Mars — not through pages, but through a continuous narrative journey.
+## 🎬 Overview
 
-Every scroll drives the story.
-Every interaction advances the mission.
+Marsbound Odyssey is a scroll-driven cinematic web experience that takes users from Earth to Mars through a continuous narrative.
+
+Every scroll advances the story.  
 Every section is a scene.
 
-🧠 Concept & Vision
+---
 
-Built for the Frontend Odyssey challenge , this project reimagines the web as a storytelling medium, not just an interface.
+## 🧠 Concept & Vision
 
-Instead of static sections, the experience unfolds like a film:
+Built for the Frontend Odyssey challenge, this project explores the web as a storytelling medium.
 
-🚀 Ignition → tension builds
-🌌 Space → isolation & depth
-🔥 Landing → climax & impact
-🪐 Exploration → discovery
-🌍 Future → humanity evolves
+Instead of static pages, the experience unfolds like a film:
 
-The goal:
-👉 Make the user feel the journey — not just see it.
+- Ignition → tension builds  
+- Space → isolation & depth  
+- Landing → climax & impact  
+- Exploration → discovery  
+- Future → humanity evolves  
 
-✨ Key Highlights
-🎥 Cinematic Storytelling
-Continuous scroll-based narrative
-Seamless scene transitions (no page breaks)
-Emotion-driven progression
-🚀 Advanced 3D + Motion
-Real-time rocket system with thrust dynamics
-Particle systems (smoke, exhaust, dust)
-Cinematic camera movement
-🌌 Immersive Environment
-Parallax starfields
-Depth-based motion
-Living space atmosphere
-🔊 Audio-Driven Experience
-Section-based sound design
-Launch, transit, landing cues
-Ambient immersion
-⚡ Micro-interactions
-Hover feedback
-Interactive exploration cards
-Smooth UI responses
-🏗️ Tech Stack
-⚛️ React + Vite
-🎨 Tailwind CSS
-🎞️ GSAP + ScrollTrigger
-🌐 Three.js + custom shaders
-🔊 Web Audio API
-🧩 Architecture
-🎬 Master GSAP Timeline → Controls narrative flow
-🌌 Three.js Scene Engine → 3D visuals + particles
-🔊 Central Audio Manager → Sound synchronization
-🧠 Component-based UI System → Clean modular structure
-🗂️ Project Structure
+**Goal:** Make users feel the journey — not just see it.
+
+---
+
+## ✨ Key Highlights
+
+### 🎥 Cinematic Storytelling
+- Continuous scroll-based narrative  
+- Seamless transitions between sections  
+- Emotion-driven progression  
+
+### 🚀 3D & Motion
+- Real-time rocket animation  
+- Particle systems (smoke, exhaust, dust)  
+- Camera-based movement  
+
+### 🌌 Immersion
+- Parallax starfields  
+- Depth-based motion  
+- Dynamic environment  
+
+### 🔊 Audio
+- Section-based sound design  
+- Ambient + event-driven audio  
+
+---
+
+## 🏗️ Tech Stack
+
+- React + Vite  
+- Tailwind CSS  
+- GSAP + ScrollTrigger  
+- Three.js  
+- Web Audio API  
+
+---
+
+## 🗂️ Project Structure
+
+```bash
 marsbound-odyssey/
 │
 ├── public/
-│   ├── audio/                 # 🎧 Sound assets
+│   ├── audio/
 │   │   ├── ambient-space.mp3
 │   │   ├── rocket-launch.mp3
 │   │   └── landing.mp3
-│   └── assets/                # Static assets
+│   └── assets/
 │
 ├── src/
-│   ├── components/            # 🧩 UI components
-│   │   ├── Cursor.jsx
-│   │   ├── Loader.jsx
-│   │   ├── Nav.jsx
-│   │   ├── ProgressBar.jsx
-│   │   └── AudioToggle.jsx
-│   │
-│   ├── sections/              # 🎬 Story scenes
-│   │   ├── Hero3D.jsx
-│   │   ├── Mission.jsx
-│   │   ├── Launch.jsx
-│   │   ├── Transit.jsx
-│   │   ├── Landing.jsx
-│   │   ├── Explore.jsx
-│   │   └── Future.jsx
-│   │
-│   ├── animation/             # 🎞️ GSAP logic
-│   │   └── masterTimeline.js
-│   │
-│   ├── hooks/                 # ⚙️ Three.js logic
-│   │   └── useHeroThreeScene.js
-│   │
-│   ├── audio/                 # 🔊 Audio system
-│   │   └── cinematicAudio.js
-│   │
-│   ├── styles/                # 🎨 Global styles
-│   │
+│   ├── components/
+│   ├── sections/
+│   ├── animation/
+│   ├── hooks/
+│   ├── audio/
+│   ├── styles/
 │   ├── App.jsx
 │   └── main.jsx
 │
 ├── package.json
-├── vite.config.js
-└── README.md
-🧠 Architecture Flow
-User Scroll → GSAP ScrollTrigger → Master Timeline  
-→ Three.js Scene Updates → UI Sections Sync  
-→ Audio System Sync → Cinematic Output
-🎮 Controls
-🖱️ Scroll → Progress the journey
-🖱️ Hover → Interact with elements
-🔊 Toggle → Enable/disable sound
-⚡ Performance Focus
-Optimized animations (transform-based)
-Reduced re-renders using refs
-Mobile fallbacks for heavy 3D scenes
-🏆 Why This Stands Out
+└── vite.config.js
+```
 
-✔️ Not a website — a cinematic experience
-✔️ Combines storytelling + engineering + design
-✔️ Real-time 3D instead of static animations
-✔️ Built under hackathon constraints
+---
 
-🚀 Getting Started
+## 🧠 Architecture
+
+```
+Scroll → GSAP → Timeline  
+→ Three.js Scene  
+→ UI Sections  
+→ Audio Sync  
+```
+
+---
+
+## 🎮 Controls
+
+- Scroll → progress story  
+- Hover → interact  
+- Sound toggle → audio control  
+
+---
+
+## ⚡ Performance
+
+- Optimized animations (transform-based)  
+- Reduced re-renders  
+- Mobile fallbacks for 3D  
+
+---
+
+## 🏆 Why This Project
+
+- Cinematic storytelling approach  
+- Real-time 3D integration  
+- Strong interaction design  
+
+---
+
+## 🚀 Setup
+
+```bash
 npm install
 npm run dev
-🌍 Vision
+```
 
-The future of the web is not static pages.
+---
 
-It is:
+## 🌍 Final Note
 
-interactive
-emotional
-immersive
-
-Marsbound Odyssey is a step toward that future.
-
-👨‍🚀 Final Note
-
-“The journey to Mars is not about distance.
-It’s about what we become along the way.”
+The journey to Mars is not about distance.  
+It’s about what we become along the way.
