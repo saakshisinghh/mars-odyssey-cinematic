@@ -1,0 +1,343 @@
+.transit {
+  position: relative;
+  min-height: 100vh;
+  background: #000;
+  padding: var(--section-pad) 0;
+  overflow: hidden;
+}
+
+.trajectory {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 200px;
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.trajPath {
+  stroke-dashoffset: 0;
+  animation: drawPath 3s ease forwards;
+}
+
+@keyframes drawPath {
+  from { stroke-dashoffset: 2000; }
+  to { stroke-dashoffset: 0; }
+}
+
+.shipPing {
+  animation: ping 2s ease infinite;
+}
+
+@keyframes ping {
+  0% { r: 8; opacity: 0.8; }
+  100% { r: 20; opacity: 0; }
+}
+
+.container {
+  position: relative;
+  z-index: 20;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 5vw, 80px);
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: clamp(40px, 6vw, 100px);
+  align-items: start;
+}
+
+.header {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.header.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.overline {
+  font-family: var(--font-condensed);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: var(--red);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(44px, 6vw, 80px);
+  line-height: 0.92;
+  margin-bottom: 24px;
+  letter-spacing: 0.02em;
+}
+
+.heading span {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+}
+
+.sub {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.8;
+  font-weight: 300;
+  max-width: 380px;
+}
+
+/* ─── CHALLENGE CARDS ─── */
+.challenges {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.card {
+  display: flex;
+  gap: 20px;
+  padding: 24px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-left: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.cardVisible {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s, border-color 0.3s;
+}
+
+.cardActive {
+  background: rgba(232, 41, 28, 0.06) !important;
+  border-left-color: var(--red) !important;
+  border-color: rgba(232, 41, 28, 0.15) !important;
+}
+
+.card:hover {
+  background: rgba(255,255,255,0.04);
+}
+
+.cardIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  width: 40px;
+  text-align: center;
+  opacity: 0.7;
+}
+
+.cardContent { flex: 1; }
+
+.cardTitle {
+  font-family: var(--font-condensed);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.cardDetail {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.6;
+  font-weight: 300;
+  margin-bottom: 12px;
+}
+
+.cardStat {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.cardStatVal {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--red);
+}
+
+.cardStatLabel {
+  font-family: var(--font-condensed);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .container { grid-template-columns: 1fr; }
+  .trajectory { display: none; }
+}
+
+/* ─── Scroll-driven enhancements ─── */
+.starLayer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  transition: transform 0.1s linear;
+  z-index: 0;
+}
+
+/* Telemetry strip */
+.telemetry {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  background: rgba(232,41,28,0.05);
+  border-top: 1px solid rgba(232,41,28,0.15);
+  border-bottom: 1px solid rgba(232,41,28,0.15);
+  padding: 12px 0;
+  margin-bottom: 0;
+  overflow: hidden;
+}
+
+.telItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 0 clamp(16px, 3vw, 40px);
+}
+
+.telLabel {
+  font-family: var(--font-condensed);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.telVal {
+  font-family: var(--font-condensed);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--white);
+}
+
+.telDivider {
+  width: 1px;
+  height: 32px;
+  background: rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+
+/* Journey progress bar */
+.journeyBar {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.journeyLabel {
+  font-family: var(--font-condensed);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.journeyTrack {
+  flex: 1;
+  height: 2px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.journeyFill {
+  height: 100%;
+  background: var(--red);
+  border-radius: 1px;
+  transition: width 0.15s ease;
+  box-shadow: 0 0 8px var(--red-glow);
+}
+
+.journeyPct {
+  font-family: var(--font-condensed);
+  font-size: 0.7rem;
+  color: var(--red);
+  min-width: 32px;
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .telemetry { flex-wrap: wrap; gap: 8px; }
+  .telDivider { display: none; }
+  .telItem { min-width: 45%; }
+}
+
+/* ─── Astronaut floating figure ─────────────────── */
+.astronautWrap {
+  position: absolute;
+  top: 18%;
+  right: 8%;
+  z-index: 10;
+  pointer-events: none;
+  filter: drop-shadow(0 0 16px rgba(100,180,255,0.3));
+  will-change: transform;
+}
+
+@media (max-width: 900px) {
+  .astronautWrap { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════
+   TRANSIT — ANIMATION POLISH
+   ═══════════════════════════════════════════════════ */
+
+/* Card spring reveal */
+.card {
+  transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+              transform 0.7s cubic-bezier(0.16,1,0.3,1),
+              background 0.3s ease,
+              border-color 0.3s ease !important;
+}
+.card:hover {
+  transform: translateY(-3px) !important;
+}
+
+/* Journey fill glow pulse */
+.journeyFill {
+  transition: width 0.2s cubic-bezier(0.16,1,0.3,1) !important;
+  box-shadow: 0 0 10px rgba(232,41,28,0.5), 0 0 24px rgba(232,41,28,0.15);
+}
+
+/* Trajectory path draw */
+.trajPath {
+  animation: drawPath 2.5s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+
+/* Telemetry value pulse on scroll update */
+.telVal {
+  transition: color 0.2s ease;
+}
+
+/* Astronaut drift — smoother multi-axis */
+.astronautWrap {
+  animation: astronautDrift 8s ease-in-out infinite;
+}
+@keyframes astronautDrift {
+  0%   { transform: translateY(0px) translateX(0px) rotate(-1deg); }
+  25%  { transform: translateY(-12px) translateX(3px) rotate(0.5deg); }
+  50%  { transform: translateY(-6px) translateX(-2px) rotate(1.2deg); }
+  75%  { transform: translateY(-14px) translateX(1px) rotate(-0.3deg); }
+  100% { transform: translateY(0px) translateX(0px) rotate(-1deg); }
+}

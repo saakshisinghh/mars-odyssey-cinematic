@@ -1,0 +1,513 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --black: #000000;
+  --dark: #050505;
+  --dark-2: #0a0a0a;
+  --dark-3: #111111;
+  --white: #ffffff;
+  --off-white: #e8e8e8;
+  --muted: #888888;
+  --muted-2: #555555;
+  --red: #e8291c;
+  --red-bright: #ff3322;
+  --red-glow: rgba(232, 41, 28, 0.4);
+  --orange: #ff6b35;
+  --amber: #ffaa00;
+
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'Barlow', sans-serif;
+  --font-condensed: 'Barlow Condensed', sans-serif;
+
+  --nav-height: 72px;
+  --section-pad: clamp(80px, 10vw, 140px);
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Custom cursor */
+.cursor {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  background: var(--red);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
+  mix-blend-mode: difference;
+}
+
+.cursor-ring {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(232, 41, 28, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease;
+}
+
+body:hover .cursor { opacity: 1; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--dark); }
+::-webkit-scrollbar-thumb { background: var(--red); }
+
+/* Utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Section base */
+section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Noise overlay */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9990;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px;
+}
+
+/* Reveal animation classes */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Red line accent */
+.red-line {
+  display: block;
+  width: 48px;
+  height: 2px;
+  background: var(--red);
+  margin-bottom: 24px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none; }
+}
+
+/* ─── Enhanced visual consistency ─── */
+
+/* Horizontal scroll hint for mobile */
+@media (pointer: fine) {
+  body { cursor: none; }
+}
+@media (pointer: coarse) {
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none !important; }
+}
+
+/* Better mobile typography */
+@media (max-width: 480px) {
+  :root {
+    --section-pad: clamp(60px, 8vw, 100px);
+  }
+}
+
+/* Section number accent shared class */
+.section-num {
+  font-family: var(--font-display);
+  font-size: clamp(80px, 15vw, 160px);
+  color: rgba(255,255,255,0.03);
+  position: absolute;
+  top: -20px;
+  right: -10px;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+/* Glitch effect utility */
+@keyframes glitch {
+  0%, 100% { clip-path: inset(0 0 100% 0); transform: translateX(0); }
+  10%       { clip-path: inset(20% 0 60% 0); transform: translateX(-4px); }
+  20%       { clip-path: inset(50% 0 30% 0); transform: translateX(4px); }
+  30%       { clip-path: inset(10% 0 80% 0); transform: translateX(-2px); }
+  40%       { clip-path: inset(70% 0 10% 0); transform: translateX(2px); }
+  50%       { clip-path: inset(0 0 0 0); transform: translateX(0); }
+}
+
+/* ═══════════════════════════════════════════════════
+   CINEMATIC UPGRADES — GLOBAL ANIMATION SYSTEM
+   ═══════════════════════════════════════════════════ */
+
+/* ─── Section bleed transitions ─────────────────── */
+section::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, transparent, var(--black));
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* ─── Enhanced reveal animations ────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(44px);
+  transition: opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1.0s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children automatically */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-stagger.visible > *:nth-child(1) { opacity:1; transform:translateY(0); transition-delay: 0.0s; }
+.reveal-stagger.visible > *:nth-child(2) { opacity:1; transform:translateY(0); transition-delay: 0.1s; }
+.reveal-stagger.visible > *:nth-child(3) { opacity:1; transform:translateY(0); transition-delay: 0.2s; }
+.reveal-stagger.visible > *:nth-child(4) { opacity:1; transform:translateY(0); transition-delay: 0.3s; }
+.reveal-stagger.visible > *:nth-child(5) { opacity:1; transform:translateY(0); transition-delay: 0.4s; }
+.reveal-stagger.visible > *:nth-child(6) { opacity:1; transform:translateY(0); transition-delay: 0.5s; }
+
+/* ─── Button glow system ─────────────────────────── */
+button, a[role="button"] {
+  transition: transform 0.22s cubic-bezier(0.16,1,0.3,1),
+              box-shadow 0.22s ease,
+              opacity 0.22s ease;
+}
+button:hover { transform: translateY(-2px); }
+button:active { transform: translateY(0) scale(0.97); }
+
+/* ─── Card lift effect ───────────────────────────── */
+[class*="card"], [class*="stat"], [class*="timelineItem"] {
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1),
+              box-shadow 0.35s ease !important;
+}
+[class*="card"]:hover, [class*="stat"]:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 20px rgba(232,41,28,0.08) !important;
+}
+
+/* ─── Floating astronaut animation ──────────────── */
+@keyframes astronautFloat {
+  0%   { transform: translateY(0px) rotate(-2deg); }
+  33%  { transform: translateY(-14px) rotate(1deg); }
+  66%  { transform: translateY(-8px) rotate(-1deg); }
+  100% { transform: translateY(0px) rotate(-2deg); }
+}
+.astronaut-float {
+  animation: astronautFloat 6s ease-in-out infinite;
+}
+
+/* ─── Continuous pulse for live indicators ───────── */
+@keyframes livePulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 currentColor; }
+  50%       { opacity: 0.7; box-shadow: 0 0 0 6px transparent; }
+}
+.live-dot {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #4caf50;
+  animation: livePulse 1.8s ease infinite;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+/* ─── Scanline shimmer ───────────────────────────── */
+@keyframes scanMove {
+  from { transform: translateY(-100%); }
+  to   { transform: translateY(100vh); }
+}
+.scanline-shimmer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 49%, rgba(255,255,255,0.015) 50%, transparent 51%);
+  height: 4px;
+  animation: scanMove 6s linear infinite;
+  pointer-events: none;
+}
+
+/* ─── Text shimmer effect for hero titles ────────── */
+@keyframes textShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.shimmer-text {
+  background: linear-gradient(90deg, #fff 40%, rgba(255,200,120,0.8) 50%, #fff 60%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: textShimmer 4s linear infinite;
+}
+
+/* ─── Glow pulse on red accents ──────────────────── */
+@keyframes redGlowPulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(232,41,28,0.4); }
+  50%       { box-shadow: 0 0 22px rgba(232,41,28,0.7), 0 0 40px rgba(232,41,28,0.2); }
+}
+.red-glow-pulse { animation: redGlowPulse 2.5s ease-in-out infinite; }
+
+/* ─── Smooth page transitions via opacity ────────── */
+.page-enter {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Loading bar animation ──────────────────────── */
+@keyframes loadBar {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+/* ─── Orbit ring spin ────────────────────────────── */
+@keyframes orbitSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.orbit-spin { animation: orbitSpin 12s linear infinite; }
+.orbit-spin-slow { animation: orbitSpin 28s linear infinite; }
+
+/* ─── Number counter pop ─────────────────────────── */
+@keyframes numPop {
+  0%   { transform: scale(0.6); opacity: 0; }
+  70%  { transform: scale(1.12); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.num-pop { animation: numPop 0.55s cubic-bezier(0.16,1,0.3,1) both; }
+
+/* ═══════════════════════════════════════════════════
+   ANIMATION POLISH — LAYER 2
+   ═══════════════════════════════════════════════════ */
+
+/* ─── Smoother section entry fade-in ────────────── */
+/* Sections fade up from slight offset on viewport entry */
+@keyframes sectionEnter {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Improved card shimmer on hover ─────────────── */
+[class*="card"]:hover::before,
+[class*="stat"]:hover::before,
+[class*="dataItem"]:hover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* ─── Red accent line grow animation ─────────────── */
+@keyframes lineGrow {
+  from { width: 0; opacity: 0; }
+  to   { width: 48px; opacity: 1; }
+}
+.red-line {
+  animation: lineGrow 0.6s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+/* ─── Staggered overline entrance ────────────────── */
+@keyframes overlineIn {
+  from { opacity: 0; letter-spacing: 0.5em; }
+  to   { opacity: 1; letter-spacing: 0.3em; }
+}
+
+/* ─── Pulse ring utility (reusable) ──────────────── */
+@keyframes pulseRing {
+  0%   { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+.pulse-ring::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  animation: pulseRing 1.8s ease-out infinite;
+}
+
+/* ─── Improved scroll indicator ──────────────────── */
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50%       { transform: translateY(6px); opacity: 1; }
+}
+
+/* ─── Tighter, snappier timeline dot pulse ────────── */
+@keyframes dotPulseSharp {
+  0%   { box-shadow: 0 0 0 0 rgba(232,41,28,0.6); }
+  60%  { box-shadow: 0 0 0 8px rgba(232,41,28,0); }
+  100% { box-shadow: 0 0 0 0 rgba(232,41,28,0); }
+}
+
+/* ─── Smooth underline for nav links ─────────────── */
+@keyframes underlineSlide {
+  from { transform: scaleX(0); transform-origin: left; }
+  to   { transform: scaleX(1); transform-origin: left; }
+}
+
+/* ─── Number roll-up ─────────────────────────────── */
+@keyframes rollUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.roll-up {
+  overflow: hidden;
+  display: inline-block;
+}
+.roll-up span {
+  display: inline-block;
+  animation: rollUp 0.7s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+/* ─── Enhanced red glow pulse (tighter timing) ───── */
+@keyframes redGlowPulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(232,41,28,0.35); }
+  50%       { box-shadow: 0 0 18px rgba(232,41,28,0.65), 0 0 36px rgba(232,41,28,0.18); }
+}
+
+/* ─── Floating animation refinement ─────────────── */
+@keyframes floatGentle {
+  0%   { transform: translateY(0px) rotate(0deg); }
+  25%  { transform: translateY(-8px) rotate(0.5deg); }
+  75%  { transform: translateY(-4px) rotate(-0.3deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+/* ─── Section border accent animate in ──────────── */
+@keyframes borderDrawDown {
+  from { height: 0; }
+  to   { height: 100%; }
+}
+
+/* ─── Data value tick-up effect ─────────────────── */
+@keyframes valueTick {
+  0%   { opacity: 0; transform: translateY(8px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.value-tick {
+  animation: valueTick 0.45s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+/* ─── Scanline improved timing ───────────────────── */
+@keyframes scanMove {
+  0%   { transform: translateY(-2px); opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+/* ─── Improved text shimmer ─────────────────────── */
+@keyframes textShimmer {
+  0%   { background-position: -300% center; }
+  100% { background-position: 300% center; }
+}
+.shimmer-text {
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.9) 0%,
+    rgba(255,255,255,0.9) 35%,
+    rgba(255, 200, 120, 0.95) 50%,
+    rgba(255,255,255,0.9) 65%,
+    rgba(255,255,255,0.9) 100%
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: textShimmer 5s linear infinite;
+}
+
+/* ─── Card hover lift: position relative guard ───── */
+[class*="card"],
+[class*="stat"],
+[class*="dataItem"],
+[class*="timelineItem"] {
+  position: relative;
+}
+
+/* ─── Section transition: no raw jumps between sections ── */
+section + section {
+  /* Ensure clean boundary – the ::after gradient handles the fade-to-black */
+  margin-top: 0;
+}

@@ -1,0 +1,193 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(24px, 4vw, 64px);
+  height: var(--nav-height);
+  transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.scrolled {
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--white);
+  font-family: var(--font-condensed);
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.logoMark {
+  color: var(--red);
+  font-size: 1.2rem;
+  display: inline-block;
+  animation: spin 8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2.5vw, 36px);
+  list-style: none;
+}
+
+.links a {
+  text-decoration: none;
+  color: rgba(255,255,255,0.7);
+  font-family: var(--font-condensed);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--red);
+  transition: width 0.3s ease;
+}
+
+.links a:hover { color: var(--white); }
+.links a:hover::after { width: 100%; }
+
+.cta {
+  border: 1px solid var(--red) !important;
+  color: var(--white) !important;
+  padding: 8px 20px;
+  font-family: var(--font-condensed) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.12em !important;
+  transition: background 0.2s ease, color 0.2s ease !important;
+}
+
+.cta:hover {
+  background: var(--red) !important;
+}
+
+.cta::after { display: none !important; }
+
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 1001;
+}
+
+.burger span {
+  display: block;
+  width: 24px;
+  height: 1.5px;
+  background: var(--white);
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.burgerOpen span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.burgerOpen span:nth-child(2) { opacity: 0; }
+.burgerOpen span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+@media (max-width: 768px) {
+  .burger { display: flex; }
+
+  .links {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.97);
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .links.open {
+    transform: translateX(0);
+  }
+
+  .links a {
+    font-size: 1.2rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   NAV — ANIMATION POLISH
+   ═══════════════════════════════════════════════════ */
+
+/* Nav slide in from top on load */
+.nav {
+  animation: navSlideIn 0.8s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes navSlideIn {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* Logo mark glow pulse */
+.logoMark {
+  filter: drop-shadow(0 0 6px rgba(232,41,28,0));
+  transition: filter 0.3s ease;
+}
+.logo:hover .logoMark {
+  filter: drop-shadow(0 0 10px rgba(232,41,28,0.6));
+}
+
+/* Link underline: spring timing */
+.links a::after {
+  transition: width 0.35s cubic-bezier(0.16,1,0.3,1) !important;
+}
+
+/* CTA button shimmer */
+.cta {
+  position: relative;
+  overflow: hidden;
+}
+.cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.5s ease;
+}
+.cta:hover::before {
+  left: 150%;
+}
+
+/* Scrolled state: smoother transition */
+.scrolled {
+  transition: background 0.5s cubic-bezier(0.16,1,0.3,1),
+              backdrop-filter 0.5s ease,
+              border-color 0.5s ease !important;
+}

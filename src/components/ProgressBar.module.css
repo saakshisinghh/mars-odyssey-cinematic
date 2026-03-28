@@ -1,0 +1,30 @@
+.bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  z-index: 2000;
+}
+
+.fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--red) 0%, #ff6b35 60%, #ffaa00 100%);
+  transition: width 0.12s cubic-bezier(0.16,1,0.3,1);
+  box-shadow: 0 0 10px rgba(232,41,28,0.7), 0 0 24px rgba(232,41,28,0.3);
+  position: relative;
+}
+
+/* Leading dot */
+.fill::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: -2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffaa00;
+  box-shadow: 0 0 8px rgba(255,170,0,0.9);
+}

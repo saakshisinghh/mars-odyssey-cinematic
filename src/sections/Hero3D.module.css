@@ -1,0 +1,705 @@
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #000;
+  isolation: isolate;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* ─── Film-grain scanlines ─── */
+.scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+}
+
+/* ─── Depth vignette ─── */
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse 80% 70% at 50% 50%, transparent 40%, rgba(0, 0, 0, 0.75) 100%);
+}
+
+/* ─── Warp speed overlay ─── */
+.warpOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  animation: warpFlash 0.4s ease forwards;
+  background: radial-gradient(ellipse at center, rgba(100, 160, 255, 0.08) 0%, transparent 70%);
+}
+
+@keyframes warpFlash {
+  0%   { opacity: 0; }
+  20%  { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
+/* ─── Hero text ─── */
+.heroText {
+  position: absolute;
+  top: 50%;
+  left: clamp(24px, 8vw, 120px);
+  /* Offset upward by half the dataStrip height (72px / 2 = 36px) so true visual center
+     sits in the open canvas area above the strip, not behind it */
+  transform: translateY(calc(-50% - 36px));
+  z-index: 20;
+  transition: opacity 0.8s ease;
+}
+
+.textFade { opacity: 0; pointer-events: none; }
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-condensed);
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  animation: fadeInUp 0.8s ease 0.2s both;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background: var(--red);
+  border-radius: 50%;
+  animation: pulse 2s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--red-glow); }
+  50%       { box-shadow: 0 0 0 8px transparent; }
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(72px, 13vw, 160px);
+  line-height: 0.88;
+  letter-spacing: -0.01em;
+  margin-bottom: 24px;
+  animation: fadeInUp 0.8s ease 0.3s both;
+}
+
+.line1, .line2 { color: var(--white); }
+.line3 {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--red);
+  text-stroke: 2px var(--red);
+}
+
+.subtitle {
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  color: rgba(255,255,255,0.55);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  margin-bottom: 48px;
+  line-height: 1.8;
+  animation: fadeInUp 0.8s ease 0.45s both;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Launch control ─── */
+.launchControl {
+  animation: fadeInUp 0.8s ease 0.6s both;
+}
+
+.launchBtn {
+  position: relative;
+  background: transparent;
+  border: 1px solid var(--red);
+  color: var(--white);
+  font-family: var(--font-condensed);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  padding: 16px 40px;
+  cursor: pointer;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.launchBtn:hover {
+  background: var(--red);
+  box-shadow: 0 0 40px var(--red-glow), 0 0 80px rgba(232,41,28,0.2);
+}
+
+.btnPulse {
+  position: absolute;
+  inset: 0;
+  background: var(--red);
+  opacity: 0;
+  animation: btnPulseAnim 2s ease infinite;
+}
+
+@keyframes btnPulseAnim {
+  0%   { opacity: 0; transform: scale(0.95); }
+  50%  { opacity: 0.15; transform: scale(1.02); }
+  100% { opacity: 0; transform: scale(0.95); }
+}
+
+.countdownDisplay {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.countLabel {
+  font-family: var(--font-condensed);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--red);
+  text-transform: uppercase;
+}
+
+.countNum {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 8vw, 80px);
+  color: var(--white);
+  line-height: 1;
+  text-shadow: 0 0 40px rgba(232,41,28,0.6);
+  animation: countPulse 0.5s ease;
+}
+
+@keyframes countPulse {
+  from { transform: scale(1.2); }
+  to   { transform: scale(1); }
+}
+
+.igniteMsg {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 6vw, 64px);
+  letter-spacing: 0.1em;
+  color: var(--orange);
+  text-shadow: 0 0 60px var(--orange), 0 0 120px rgba(255,107,53,0.4);
+  animation: igniteAnim 0.3s ease;
+}
+
+.liftoffMsg {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 6vw, 64px);
+  letter-spacing: 0.1em;
+  color: var(--white);
+  text-shadow: 0 0 60px rgba(255,255,255,0.6);
+  animation: igniteAnim 0.3s ease;
+}
+
+@keyframes igniteAnim {
+  from { opacity: 0; transform: scale(0.8); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ─── Data strip ─── */
+.dataStrip {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px clamp(24px, 5vw, 80px);
+  background: rgba(0,0,0,0.82);
+  border-top: 1px solid rgba(255,255,255,0.07);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 30;
+  min-height: 72px;
+  box-sizing: border-box;
+  animation: slideUp 1s ease 1s both;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+.dataItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0 clamp(16px, 3vw, 48px);
+}
+
+.dataLabel {
+  font-family: var(--font-condensed);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.dataValue {
+  font-family: var(--font-condensed);
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--white);
+}
+
+.divider {
+  width: 1px;
+  height: 32px;
+  background: rgba(255,255,255,0.1);
+}
+
+/* ─── Scroll indicator ─── */
+.scrollIndicator {
+  position: absolute;
+  right: clamp(16px, 3vw, 40px);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  z-index: 30;
+}
+
+.scrollLine {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, var(--red));
+  animation: scrollAnim 2s ease infinite;
+}
+
+@keyframes scrollAnim {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  50%  { transform: scaleY(1); transform-origin: top; }
+  51%  { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+.scrollIndicator span {
+  font-family: var(--font-condensed);
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  color: var(--muted-2);
+  writing-mode: vertical-rl;
+  text-transform: uppercase;
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 768px) {
+  .heroText {
+    left: 24px;
+    right: 24px;
+    top: 45%;
+    transform: translateY(calc(-50% - 36px));
+  }
+  .dataStrip { flex-wrap: wrap; gap: 8px; }
+  .divider:nth-child(4) { display: none; }
+  .scrollIndicator { display: none; }
+}
+
+/* ─── Reset button ─── */
+.resetBtn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.7);
+  font-family: var(--font-condensed);
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  padding: 12px 28px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.5s ease both;
+}
+.resetBtn:hover {
+  border-color: var(--white);
+  color: var(--white);
+  background: rgba(255,255,255,0.05);
+}
+
+/* ─── Mobile CSS rocket ─── */
+.mobileStars {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.8) 1px, transparent 1px),
+    radial-gradient(circle at 80% 15%, rgba(255,255,255,0.6) 1px, transparent 1px),
+    radial-gradient(circle at 55% 60%, rgba(255,255,255,0.5) 1px, transparent 1px),
+    radial-gradient(circle at 10% 70%, rgba(255,255,255,0.7) 1px, transparent 1px),
+    radial-gradient(circle at 90% 80%, rgba(255,255,255,0.4) 1px, transparent 1px),
+    radial-gradient(circle at 35% 10%, rgba(255,255,255,0.6) 1px, transparent 1px),
+    radial-gradient(circle at 70% 45%, rgba(255,255,255,0.5) 1px, transparent 1px),
+    radial-gradient(circle at 45% 85%, rgba(255,255,255,0.6) 1px, transparent 1px),
+    radial-gradient(circle at 15% 50%, rgba(255,255,255,0.4) 1px, transparent 1px),
+    radial-gradient(circle at 60% 25%, rgba(255,255,255,0.7) 1px, transparent 1px);
+  background-size: 200px 200px, 300px 300px, 150px 150px, 250px 250px, 180px 180px,
+                   220px 220px, 280px 280px, 160px 160px, 240px 240px, 200px 200px;
+  animation: twinkle 4s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  0%  { opacity: 0.6; }
+  100%{ opacity: 1; }
+}
+
+.mobilePlanet {
+  position: absolute;
+  top: 8%;
+  right: 5%;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #c1440e, #6b1a08 60%, #3d0e04);
+  box-shadow: 0 0 40px rgba(193,68,14,0.3);
+  animation: floatPlanet 6s ease-in-out infinite;
+}
+
+@keyframes floatPlanet {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+.mobileRocketWrap {
+  position: absolute;
+  right: clamp(60px, 15vw, 120px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+}
+
+.mobileRocket {
+  animation: mobileFloat 3s ease-in-out infinite;
+  transition: transform 1.5s cubic-bezier(0.2, 0, 0.1, 1);
+  transform-origin: center bottom;
+}
+
+.mobileRocketLaunch {
+  animation: mobileLaunch 2s cubic-bezier(0.2, 0, 0.1, 1) forwards !important;
+}
+
+@keyframes mobileFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%       { transform: translateY(-12px) rotate(1deg); }
+}
+
+@keyframes mobileLaunch {
+  0%   { transform: translateY(0) scale(1); }
+  20%  { transform: translateY(10px) scale(1.05); }
+  100% { transform: translateY(-200vh) scale(0.1); opacity: 0; }
+}
+
+.mobileFlame {
+  display: flex;
+  justify-content: center;
+  margin-top: -2px;
+}
+
+.mobileFlameInner {
+  width: 24px;
+  height: 50px;
+  background: linear-gradient(to bottom, #fff 0%, #ffdd33 20%, #ff6600 50%, #e8291c 80%, transparent 100%);
+  clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+  animation: flameFlicker 0.1s ease-in-out infinite alternate;
+  border-radius: 0 0 4px 4px;
+}
+
+@keyframes flameFlicker {
+  from { transform: scaleX(1) scaleY(1); opacity: 0.9; }
+  to   { transform: scaleX(0.85) scaleY(1.1); opacity: 1; }
+}
+
+@media (max-width: 480px) {
+  .mobileRocketWrap { right: 20px; }
+  .mobilePlanet { width: 70px; height: 70px; }
+}
+
+/* ─── SHOCKWAVE RING ─────────────────────────────────────────── */
+.shockwaveRing {
+  position: absolute;
+  bottom: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 120, 30, 0.9);
+  pointer-events: none;
+  z-index: 6;
+  animation: shockwaveExpand 0.8s cubic-bezier(0.1, 0, 0.3, 1) forwards,
+             shockwaveExpand 0.8s cubic-bezier(0.1, 0, 0.3, 1) 0.3s forwards,
+             shockwaveExpand 0.8s cubic-bezier(0.1, 0, 0.3, 1) 0.6s forwards;
+}
+
+@keyframes shockwaveExpand {
+  0%   { width: 60px; height: 30px; opacity: 0.9; border-color: rgba(255, 160, 50, 0.9); }
+  100% { width: 400px; height: 200px; opacity: 0; border-color: rgba(255, 80, 10, 0); }
+}
+
+/* ─── ENHANCED LAUNCH BTN HOVER ──────────────────────────────── */
+.launchBtn {
+  transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s ease, background 0.25s ease;
+}
+.launchBtn:hover {
+  transform: scale(1.06) translateY(-2px);
+  box-shadow: 0 0 28px rgba(232, 41, 28, 0.6), 0 0 60px rgba(232, 41, 28, 0.2);
+}
+.launchBtn:active {
+  transform: scale(0.97);
+}
+
+/* ─── SHAKE OVERLAY (invisible, just reserve z-layer) ────────── */
+.shakeOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+}
+
+/* ─── ENHANCED IGNITE + LIFTOFF MESSAGES ─────────────────────── */
+.igniteMsg {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 4rem);
+  letter-spacing: 0.15em;
+  color: #fff;
+  animation: ignitePulse 0.3s ease-in-out infinite alternate;
+  text-shadow: 0 0 20px rgba(255, 100, 20, 0.9), 0 0 60px rgba(255, 50, 10, 0.5);
+}
+@keyframes ignitePulse {
+  from { opacity: 0.8; transform: scale(1); }
+  to   { opacity: 1;   transform: scale(1.04); color: #ffaa44; }
+}
+
+.liftoffMsg {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  letter-spacing: 0.2em;
+  color: #fff;
+  animation: liftoffFlash 0.6s ease-in-out infinite alternate;
+  text-shadow: 0 0 30px rgba(255, 120, 30, 1), 0 0 80px rgba(232, 41, 28, 0.7);
+}
+@keyframes liftoffFlash {
+  from { opacity: 0.9; text-shadow: 0 0 20px rgba(255,120,30,0.8); }
+  to   { opacity: 1;   text-shadow: 0 0 40px rgba(255,180,60,1), 0 0 100px rgba(232,41,28,0.8); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CINEMATIC LAUNCH OVERLAYS
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Letterbox bars — fade in on ignite, stay through warp */
+.letterboxTop,
+.letterboxBottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  background: #000;
+  pointer-events: none;
+  z-index: 30;
+  animation: letterboxIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.letterboxTop    { top: 0;    animation-name: letterboxTopIn; }
+.letterboxBottom { bottom: 0; animation-name: letterboxBotIn; }
+
+@keyframes letterboxTopIn {
+  from { height: 0; }
+  to   { height: clamp(36px, 6vh, 72px); }
+}
+@keyframes letterboxBotIn {
+  from { height: 0; }
+  to   { height: clamp(36px, 6vh, 72px); }
+}
+
+/* Orange bloom flash at liftoff — punches through the frame then fades */
+.liftoffBloom {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 8;
+  background: radial-gradient(ellipse 60% 35% at 50% 68%,
+    rgba(255, 140, 20, 0.55) 0%,
+    rgba(232, 60, 10, 0.25) 40%,
+    transparent 75%
+  );
+  animation: bloomFlash 2.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes bloomFlash {
+  0%   { opacity: 0; }
+  8%   { opacity: 1; }
+  35%  { opacity: 0.6; }
+  100% { opacity: 0; }
+}
+
+/* Heat-haze shimmer during ignition — subtle vertical distortion illusion */
+.heatHaze {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 45%;
+  pointer-events: none;
+  z-index: 7;
+  background: linear-gradient(
+    to top,
+    rgba(255, 120, 30, 0.07) 0%,
+    rgba(255, 80, 10, 0.04) 30%,
+    transparent 70%
+  );
+  animation: hazeFlicker 0.08s ease-in-out infinite alternate;
+  transform-origin: bottom center;
+}
+@keyframes hazeFlicker {
+  from { opacity: 0.6; transform: skewX(0.15deg) scaleY(1); }
+  to   { opacity: 1;   transform: skewX(-0.15deg) scaleY(1.004); }
+}
+
+/* Chromatic aberration pulse on ignition start */
+.liftoffBloom::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  filter: blur(2px);
+  mix-blend-mode: screen;
+  animation: chromaShift 0.25s ease forwards;
+}
+@keyframes chromaShift {
+  0%   { transform: translate(2px, 0); opacity: 0.8; }
+  50%  { transform: translate(-2px, 0); opacity: 0.5; }
+  100% { transform: translate(0, 0); opacity: 0; }
+}
+.resetBtn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.7);
+  font-family: var(--font-condensed);
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+.resetBtn:hover {
+  border-color: var(--red);
+  color: white;
+  background: rgba(232,41,28,0.1);
+}
+
+/* ─── COUNTDOWN ENHANCEMENTS ─────────────────────────────────── */
+.countdownDisplay {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  animation: fadeInUp 0.4s ease both;
+}
+.countNum {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 7rem);
+  color: var(--red);
+  line-height: 1;
+  animation: countPulse 0.5s ease-in-out;
+  text-shadow: 0 0 20px rgba(232,41,28,0.6);
+}
+@keyframes countPulse {
+  0%   { transform: scale(1.3); opacity: 0.5; }
+  100% { transform: scale(1);   opacity: 1; }
+}
+.countLabel {
+  font-family: var(--font-condensed);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════
+   HERO3D — ANIMATION POLISH
+   ═══════════════════════════════════════════════════ */
+
+/* Smooth heatHaze shimmer — less jarring */
+.heatHaze {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 45%;
+  pointer-events: none;
+  z-index: 7;
+  background: linear-gradient(
+    to top,
+    rgba(255, 120, 30, 0.06) 0%,
+    rgba(255, 80, 10, 0.03) 30%,
+    transparent 70%
+  );
+  animation: hazeFlickerSmooth 0.12s ease-in-out infinite alternate;
+  transform-origin: bottom center;
+}
+@keyframes hazeFlickerSmooth {
+  from { opacity: 0.5; transform: skewX(0.1deg) scaleY(1); }
+  to   { opacity: 0.85; transform: skewX(-0.1deg) scaleY(1.003); }
+}
+
+/* liftoffBloom: broader, softer */
+.liftoffBloom {
+  background: radial-gradient(ellipse 70% 40% at 50% 72%,
+    rgba(255, 150, 30, 0.45) 0%,
+    rgba(232, 60, 10, 0.2) 40%,
+    transparent 80%
+  );
+  animation: bloomFlashSmooth 3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes bloomFlashSmooth {
+  0%   { opacity: 0; }
+  6%   { opacity: 1; }
+  40%  { opacity: 0.5; }
+  100% { opacity: 0; }
+}
+
+/* Shockwave ring: smoother expand */
+.shockwaveRing {
+  animation: shockwaveExpandSmooth 1s cubic-bezier(0.1, 0, 0.2, 1) forwards,
+             shockwaveExpandSmooth 1s cubic-bezier(0.1, 0, 0.2, 1) 0.35s forwards,
+             shockwaveExpandSmooth 1s cubic-bezier(0.1, 0, 0.2, 1) 0.7s forwards;
+}
+@keyframes shockwaveExpandSmooth {
+  0%   { width: 50px; height: 25px; opacity: 0.8; border-color: rgba(255, 170, 60, 0.8); }
+  100% { width: 420px; height: 210px; opacity: 0; border-color: rgba(255, 80, 10, 0); }
+}
+
+/* Mobile planet: smoother float */
+.mobilePlanet {
+  animation: floatPlanetSmooth 7s ease-in-out infinite;
+}
+@keyframes floatPlanetSmooth {
+  0%   { transform: translateY(0) rotate(0deg); }
+  33%  { transform: translateY(-9px) rotate(0.4deg); }
+  66%  { transform: translateY(-4px) rotate(-0.3deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
