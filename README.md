@@ -195,7 +195,3 @@ npm run dev
 
 ---
 
-## 🌍 Final Note
-
-The journey to Mars is not about distance.  
-It’s about what we become along the way.
